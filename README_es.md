@@ -101,5 +101,33 @@ Los subagentes del proyecto viven en `.claude/agents/`. Claude puede delegarles 
 - Recetas de flujo (redacción de incidentes, ADR rápido).
 - Evals ligeros y CI para validar formatos.
 
+## Sistema SEO opcional (Agent-first)
+ El pack SEO vive en `systems/seo/` para mantener `.claude/` limpio. Es opt-in y prioriza subagentes sobre slash commands. Instala desde la terminal:
+ 
+ - Copia a nivel de proyecto (recomendado)
+ ```bash
+ chmod +x systems/seo/install.sh
+ ./systems/seo/install.sh --project --copy --all
+ ```
+ 
+ - Symlinks a nivel de usuario (perfil local)
+ ```bash
+ ./systems/seo/install.sh --user --symlink --agents --styles
+ ```
+ 
+ - Mínimo agent-first (solo agentes y estilos)
+ ```bash
+ ./systems/seo/install.sh --project --copy --agents --styles
+ ```
+ 
+ Uso tras la instalación:
+ - Cambia el estilo: `/output-style seo-strategist`
+ - Subagentes: `/agents brief-architect`, `/agents keyword-clusterer`, `/agents optimizer`, `/agents refresh-auditor`, `/agents cluster-planner`, `/agents gap-analyst`, `/agents serp-analyst`, `/agents entity-clusterer`, `/agents internal-linker`
+ - Los comandos son wrappers opcionales si instalas `systems/seo/commands/`
+ 
+ Seguridad: todos los agentes son consultivos por defecto (Markdown/diffs primero). Los hooks existentes pueden bloquear escrituras salvo aprobación explícita.
+ 
+ Desinstalar: elimina copias/enlaces bajo `.claude/`.
+
 ## Contribuir
 Abre un issue con el estilo/subagente propuesto, propósito claro y dos ejemplos de uso. Ver `CONTRIBUTING.md`.
