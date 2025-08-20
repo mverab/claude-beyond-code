@@ -13,6 +13,6 @@ If you have an idea for a new output style, please open an issue on GitHub first
 ## Submitting Changes
 
 1.  Fork the repository.
-2.  Create a new branch for your feature or bug fix.
+2.  Create a new branch for your contribution, output style or bug fix.
 3.  Make your changes.
 4.  Submit a pull request with a clear description of your changes.

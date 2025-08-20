@@ -2,6 +2,8 @@
 
 Una biblioteca curada de Estilos de Salida que transforman Claude Code en agentes especializados para roles no técnicos, manteniendo sus capacidades locales (leer/escribir archivos, ejecutar scripts, TODOs).
 
+![Claude Beyond Code hero](./download.webp)
+
 ## ¿Por qué Estilos de Salida?
 - Los Estilos de Salida reemplazan el prompt del sistema por defecto y convierten a Claude en un agente distinto con sus propias reglas y formato.
 - Combínalos con Comandos Slash, Subagentes y Hooks para flujos listos para usar.

@@ -2,6 +2,8 @@
 
 A curated library of Output Styles that transform Claude Code into specialized agents for non‑coding roles while keeping its local powers (read/write files, run scripts, TODOs).
 
+![Claude Beyond Code hero](./download.webp)
+
 ## Why Output Styles
 - Output Styles replace the default system prompt and turn Claude into a different agent with its own rules and formatting.
 - Pair them with Slash Commands, Subagents, and Hooks to ship ready-to-use workflows.
