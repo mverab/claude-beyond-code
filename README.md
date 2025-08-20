@@ -1,43 +1,105 @@
-# Claude-Beyond-Code (MVP)
+# Claude-Beyond-Code
 
-This project provides a curated library of "beyond code" output styles for Claude, making it an expert assistant for non-coding roles while retaining its powerful local automation capabilities.
+A curated library of Output Styles that transform Claude Code into specialized agents for non‑coding roles while keeping its local powers (read/write files, run scripts, TODOs).
 
-This MVP (Minimum Viable Product) includes two initial styles to demonstrate the core functionality.
+## Why Output Styles
+- Output Styles replace the default system prompt and turn Claude into a different agent with its own rules and formatting.
+- Pair them with Slash Commands, Subagents, and Hooks to ship ready-to-use workflows.
 
-## Included Styles (v0.1)
-
-1.  **Docs/Tech Writer (`docs-writer`)**: A style for generating high-quality technical documentation, READMEs, and Architecture Decision Records (ADRs).
-2.  **SRE Incident Scribe (`sre-incident-scribe`)**: A specialized style for maintaining structured, time-stamped logs during incidents.
+## Included Styles (MVP)
+- 🖥️ **html-terminal**: Claude outputs retro terminal‑style HTML only with strict formatting and saving rules.
+- 📝 **docs-writer**: Technical documentation specialist with templates (README, ADR) and writing rules.
+- 🚨 **sre-incident-scribe**: Incident log keeper with chronological updates and structured postmortems.
 
 ## Quickstart
+1) Project-level installation (recommended)
+```bash
+cp -r path/to/claude-beyond-code/.claude .
+```
+2) Activate a style
+```
+/output-style html-terminal
+/output-style docs-writer
+/output-style sre-incident-scribe
+```
+3) Use style commands
+```
+/docs:readme
+/sre:triage "Database connection failures"
+/sre:update "Applied hotfix v2.1.1"
+```
 
-1.  **Installation**: Copy the `.claude` directory from this repository into your project's root folder.
+## Subagents (optional, MVP-aligned)
+Project subagents live in `.claude/agents/`. Claude can delegate to them automatically when appropriate, or you can invoke them explicitly (see `/agents` UI or ask "Use the X subagent …").
 
-    ```bash
-    # From the root of your project
-    cp -r path/to/claude-beyond-code/.claude .
-    ```
+- 🔎 **log-slicer** (for SRE)
+  - Tools: Read, Grep, Glob
+  - When to use: Segment and summarize large logs during incidents. Returns structured findings, evidence, metrics, and next steps.
+  - Example: "Use the log-slicer subagent to analyze logs in logs/ for 'timeout' patterns".
 
-2.  **Activate a Style**: In your IDE with the Claude extension, start a conversation and use the `/output-style` command to switch to a desired style.
+- 📎 **snippet-extractor** (for Docs)
+  - Tools: Read, Grep
+  - When to use: Extract code snippets with context (path/language) to enrich READMEs/ADRs.
+  - Example: "Have snippet-extractor pull usage examples for the Foo API from src/".
 
-    *To use the Tech Writer style:*
-    ```
-    /output-style docs-writer
-    ```
+- 💾 **html-saver** (for HTML Terminal)
+  - Tools: Write
+  - When to use: Persist HTML produced by `html-terminal` using `terminal_output_[name]_[YYYYMMDD_HHMMSS].html`.
+  - Example: "Ask html-saver to persist the last HTML response as a preview file".
 
-    *To use the SRE Scribe style:*
-    ```
-    /output-style sre-incident-scribe
-    ```
+> Note: These subagents are optional and scoped with minimal permissions to keep the MVP safe.
 
-3.  **Use Commands**: Once a style is active, you can use its associated slash commands to perform specific tasks. For example, with `docs-writer` active:
+## Repository Structure
 
-    ```
-    /docs:readme
-    ```
+### Actual (MVP)
+```
+.claude/
+├── output-styles/
+│   ├── html-terminal.md
+│   ├── docs-writer.md
+│   └── sre-incident-scribe.md
+├── agents/
+│   ├── log-slicer.md
+│   ├── snippet-extractor.md
+│   └── html-saver.md
+├── commands/
+│   ├── docs-readme.md
+│   ├── sre-triage.md
+│   └── sre-update.md
+├── examples/
+│   ├── docs-writer-example.md
+│   ├── sre-scribe-example.md
+│   ├── log-slicer-example.md
+│   ├── snippet-extractor-example.md
+│   └── html-saver-example.md
+└── recipes/
+    └── sre-quick-playbook.md
+```
 
-    This will generate a README file based on the context of your project.
+### Reference (extended from `skeleton.md` plan)
+```
+/styles         # Styles by category with README, examples, compatibility notes
+/commands       # Slash command templates per style
+/agents         # Optional subagents for focused delegation by task
+/hooks          # Validation/safety hooks (e.g., block writes in advisory-only styles)
+/recipes        # Playbooks (style + commands + agents + hooks)
+/evals          # Deterministic checks (schema markdown, unified diff, etc.)
+/examples       # End-to-end demos per style
+.claude/output-styles  # Project-level style templates, ready to copy
+.claude/commands       # Project-level command templates
+.claude/examples       # Project-level examples
+.claude/recipes        # Project-level recipes
+```
+
+## Principles
+- Keep it simple and safe (least privileges).
+- Clarity over complexity.
+- Styles transform behavior; commands and subagents operationalize it.
+
+## Short Roadmap
+- Minimal hooks: block Write in advisory-only styles; diff validator for future security styles.
+- Workflow recipes (incident write-up, quick ADR).
+- Lightweight evals and CI to validate formats.
 
 ## Contributing
-
-We welcome contributions! Please see `CONTRIBUTING.md` for more details.
+Open an issue with the proposed style/subagent, a clear purpose, and two usage examples. See `CONTRIBUTING.md`.
